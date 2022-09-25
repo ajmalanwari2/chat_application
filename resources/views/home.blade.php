@@ -1,6 +1,4 @@
-<?php header('Access-Control-Allow-Origin: *'); ?>
 @extends('layouts.app')
-
 @section('content')
     <div class="row chat-row">
         <div class="col-md-3">
@@ -13,7 +11,8 @@
                                 <a href="{{route('message.conversation', $user->id)}}">
                                     <div class="chat-image">
                                         {!! makeImageFromName($user->name) !!}
-                                        <i class="fa fa-circle user-status-icon" title="status"></i>
+                                        <i class="fa fa-circle user-status-icon user-icon-{{ $user->id }}"
+                                           title="status"></i>
                                     </div>
                                     <div class="chat-name">
                                         {{$user->name}}
@@ -32,15 +31,40 @@
 @endsection
 @push('scripts')
     <script>
-        $(function () {
-            let user_id = "{{ auth()->user()->id }}"
-            let ip_address = '127.0.0.1';
-            let socket_port = '3000';
-            let socket = io(ip_address + ':' + socket_port);
-            socket.on('connect', function(){
-                alert("Iam here");
-                socket.emit('user_connected', user_id);
+        $(document).ready(function () {
+            $(function () {
+                let user_id = "{{ auth()->user()->id }}"
+                let ip_address = '127.0.0.1';
+                let socket_port = '3000';
+                let socket = io(ip_address + ':' + socket_port);
+                socket.on('connection', function () {
+                    socket.emit('user_connected', user_id);
+                });
+                socket.on('updateUserStatus', (data) => {
+                    console.log('Iam here', data);
+                    $.each(data, function (key, val) {
+                        if (val !== null && val !== 0) {
+                            console.log(key);
+                            let $userIcon = $(".user-icon-" + key);
+                            $userIcon.addClass('text-success');
+                            $userIcon.attr('title', 'Online');
+                        }
+                    });
+                });
             });
         });
     </script>
+    {{--    <script>--}}
+    {{--        $(function (){--}}
+    {{--           let user_id = "{{ auth()->user()->id }}";--}}
+    {{--           let ip_address = '127.0.0.1';--}}
+    {{--           let socket_port = '3000'--}}
+    {{--           let socket = io(ip_address + ':' + socket_port);--}}
+
+    {{--           socket.on('connection', function (){--}}
+    {{--               alert('here');--}}
+    {{--              socket.emit('user_connected', user_id);--}}
+    {{--           });--}}
+    {{--        });--}}
+    {{--    </script>--}}
 @endpush
