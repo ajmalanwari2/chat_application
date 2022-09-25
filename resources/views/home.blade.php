@@ -1,3 +1,4 @@
+<?php header('Access-Control-Allow-Origin: *'); ?>
 @extends('layouts.app')
 
 @section('content')
@@ -29,3 +30,17 @@
         </div>
     </div>
 @endsection
+@push('scripts')
+    <script>
+        $(function () {
+            let user_id = "{{ auth()->user()->id }}"
+            let ip_address = '127.0.0.1';
+            let socket_port = '3000';
+            let socket = io(ip_address + ':' + socket_port);
+            socket.on('connect', function(){
+                alert("Iam here");
+                socket.emit('user_connected', user_id);
+            });
+        });
+    </script>
+@endpush

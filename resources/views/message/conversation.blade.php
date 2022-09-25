@@ -43,7 +43,7 @@
                             </div>
                             <div class="chat-name">
                                 Ajmal Anwari
-                                <span class="small time">
+                                <span class="small time text-gray-500" title="2022-09-24 09:25 AM">
                                     10:30 PM
                                 </span>
                             </div>
@@ -54,6 +54,24 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="chat-box">
+                <div class="chat-input bg-white" id="chatInput" contenteditable="">
+
+                </div>
+                <div class="chat-input-toolbar">
+                    <button title="Attachment" class="btn btn-light btn-sm btn-file-upload">
+                        <i class="fa fa-paperclip"></i>
+                    </button>
+                    <button title="Bold" class="btn btn-light btn-sm tool-items"
+                    onclick="document.execCommand('bold', false, '')">
+                        <i class="fa fa-bold"></i>
+                    </button>
+                    <button title="Italic" class="btn btn-light btn-sm tool-items"
+                    onclick="document.execCommand('italic', false, '')">
+                        <i class="fa fa-italic tool-icon"></i>
+                    </button>
                 </div>
             </div>
         </div>
